@@ -20,7 +20,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import Sidebar from "@/components/Sidebar.vue";
-import { onMounted, ref } from "vue";
+// import Sidebar from '../components/Sidebar.vue'
+import { onMounted, ref, defineComponent } from "vue";
+defineComponent({
+  components: {
+    Sidebar,
+  },
+});
 
 // import
 const isSidebarHidden = ref(false);
