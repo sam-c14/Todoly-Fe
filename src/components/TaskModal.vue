@@ -146,14 +146,14 @@ const handleRemoveTaskModal = (e: any) => {
     if (taskPayload.taskDescription || taskPayload.taskName) {
       showTaskModalRemovalPrompt.value = true;
     } else {
-      props?.setShowTaskModal();
+      props?.setShowTaskModal?.();
     }
   }
 };
 
 const removeTaskModal = () => {
   showTaskModalRemovalPrompt.value = false;
-  props?.setShowTaskModal();
+  props?.setShowTaskModal?.();
   taskPayload.taskDescription = "";
   taskPayload.taskName = "";
 };
