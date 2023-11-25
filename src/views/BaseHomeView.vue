@@ -1,30 +1,39 @@
 <template>
-  <div class="flex overflow-hidden">
-    <Transition name="slide-fade">
-      <Sidebar
-        :setIsSidebarHidden="setIsSidebarHidden"
-        :isSidebarHidden="isSidebarHidden"
-        v-if="!isSidebarHidden"
-      ></Sidebar>
-      <div v-else-if="isSidebarHidden"
-        ><v-icon
-          @click.prevent="isSidebarHidden = !isSidebarHidden"
-          name="fa-bars"
-          scale="1.5"
-      /></div>
-    </Transition>
+  <div class="overflow-y-hidden">
+    <TaskModal
+      :showTaskModal="showTaskModal"
+      :setShowTaskModal="setShowTaskModal"
+    />
+    <div class="flex overflow-hidden">
+      <Transition name="slide-fade">
+        <Sidebar
+          :setIsSidebarHidden="setIsSidebarHidden"
+          :isSidebarHidden="isSidebarHidden"
+          :setDisplayTaskModal="setShowTaskModal"
+          v-if="!isSidebarHidden"
+        ></Sidebar>
+        <div title="Toggle Sidebar" v-else-if="isSidebarHidden"
+          ><v-icon
+            @click.prevent="isSidebarHidden = !isSidebarHidden"
+            name="bi-box-arrow-right"
+            scale="1.5"
+        /></div>
+      </Transition>
 
-    <router-view></router-view>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import Sidebar from "@/components/Sidebar.vue";
+import TaskModal from "@/components/TaskModal.vue";
 // import Sidebar from '../components/Sidebar.vue'
 import { onMounted, ref, defineComponent } from "vue";
 defineComponent({
   components: {
     Sidebar,
+    TaskModal,
   },
 });
 
@@ -33,8 +42,12 @@ const isSidebarHidden = ref(false);
 const setIsSidebarHidden = () => {
   isSidebarHidden.value = !isSidebarHidden.value;
 };
+const showTaskModal = ref(false);
+const setShowTaskModal = () => {
+  showTaskModal.value = !showTaskModal.value;
+};
 onMounted(() => {
-  console.log("mounted in base home view");
+  console.log("mounteds in base home view");
 });
 </script>
 <style scoped>
