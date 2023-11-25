@@ -2,6 +2,9 @@ import "./assets/main.css";
 import "vue-material-design-icons/styles.css";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import * as FaIcons from "oh-vue-icons/icons/fa";
+import * as BiIcons from "oh-vue-icons/icons/bi";
+import * as PrIcons from "oh-vue-icons/icons/pr";
+import * as RiIcons from "oh-vue-icons/icons/ri";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -11,7 +14,10 @@ import App from "./App.vue";
 import router from "./router";
 
 const Fa = Object.values({ ...FaIcons });
-addIcons(...Fa);
+const Bi = Object.values({ ...BiIcons });
+const Pr = Object.values({ ...PrIcons });
+const Ri = Object.values({ ...RiIcons });
+addIcons(...Fa, ...Bi, ...Pr, ...Ri);
 
 const app = createApp(App);
 const pinia = createPinia();

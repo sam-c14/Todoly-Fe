@@ -7,7 +7,11 @@ export default {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        "1/35": "18%",
+      },
+    },
   },
   plugins: [require("flowbite/plugin")],
 };
