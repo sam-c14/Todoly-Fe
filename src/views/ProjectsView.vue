@@ -98,11 +98,11 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 // import { Dropdown } from 'flowbite';
 import { ref } from "vue";
 
-const isDropDownShowing = ref(false);
+const isDropDownShowing = ref<boolean>(false);
 </script>
 <style scoped>
 .fade-enter-active {
