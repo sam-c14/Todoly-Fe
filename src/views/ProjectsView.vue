@@ -1,12 +1,14 @@
 <template>
   <div class="w-full xl:px-32 pb-28">
-    <div class="flex w-full mt-10 items-center pr-14 justify-between">
-      <div>
+    <div
+      class="flex w-full mt-10 items-center xl:pr-14 lg:pr-14 md:pr-14 pr-2 justify-between xl:flex-nowrap lg:flex-nowrap md:flex-nowrap flex-wrap"
+    >
+      <div class="xl:w-auto lg:w-auto md:w-auto w-full">
         <h3 class="font-semibold text-2xl">My Projects</h3>
         <p class="text-gray-500">Free plan</p>
       </div>
       <div
-        class="flex gap-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white p-2 rounded-sm"
+        class="flex gap-x-2 pl-0 sm:mt-0 mt-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white p-2 rounded-sm xl:w-auto lg:w-auto md:w-auto w-full"
       >
         <v-icon
           name="ri-settings-3-line"
@@ -60,11 +62,13 @@
           class="mt-1 bg-white divide-y divide-gray-100 absolute rounded-lg w-44 dark:bg-gray-700"
         >
           <ul
-            class="py-2 text-sm w-72 shadow-lg bg-white text-gray-700 dark:text-gray-200 border rounded-md px-3"
+            class="py-2 text-sm sm:w-72 w-56 shadow-lg bg-white text-gray-700 dark:text-gray-200 border rounded-md px-3"
             aria-labelledby="dropdownDefaultButton"
           >
             <li class="pl-2"
-              ><span class="text-lg font-semibold mb-3">Project type</span></li
+              ><span class="sm:text-lg text-base font-semibold mb-3"
+                >Project type</span
+              ></li
             >
             <li
               class="flex px-2 mt-3 rounded-sm gap-3 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -72,7 +76,9 @@
               <span>
                 <v-icon name="fa-tasks" class="text-reset" scale="1.1" />
               </span>
-              <a href="#" class="block text-gray-500 text-lg px-4 py-2"
+              <a
+                href="#"
+                class="block text-gray-500 sm:text-lg text-sm px-4 py-2"
                 >Active Projects</a
               >
             </li>
@@ -82,7 +88,9 @@
               <span>
                 <v-icon name="pr-inbox" class="text-reset" scale="1.1" />
               </span>
-              <a href="#" class="block text-gray-500 text-lg px-4 py-2"
+              <a
+                href="#"
+                class="block text-gray-500 sm:text-lg text-sm px-4 py-2"
                 >Archived Projects</a
               >
             </li>

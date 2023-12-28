@@ -1,8 +1,5 @@
 <template>
-  <div
-    style="background: #faf8f7a4; height: 100dvh"
-    class="bg-red-500 absolute"
-  >
+  <div style="height: 100dvh" class="z-50 side-menu absolute">
     <div
       style="width: 18.5rem"
       class="flex-shrink-0 h-full z-0 border-r-0 shadow-sm"
@@ -181,6 +178,9 @@ const showProjects = ref(true);
 // import SvgIcon from "vue-material-design-icons/Plus-Circle-Outline.vue";
 </script>
 <style>
+.side-menu {
+  background: #faf8f7a4;
+}
 .fade-enter-active {
   transition: all 0.1s ease-in;
 }
@@ -192,5 +192,16 @@ const showProjects = ref(true);
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+@media screen and (max-width: 576px) {
+  .side-menu {
+    background: white;
+    --tw-shadow: 0 10px 20px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+      0 4px 6px -4px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
 }
 </style>

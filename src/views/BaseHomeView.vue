@@ -13,7 +13,7 @@
           v-if="!isSidebarHidden"
         ></Sidebar>
         <div
-          class="ml-5 mr-2 mt-3"
+          class="sm:ml-5 ml-1 xl:mr-2 lg:mr-2 md:mr-2 mr-0 mt-3"
           title="Toggle Sidebar"
           v-else-if="isSidebarHidden"
         >
@@ -49,7 +49,9 @@ defineComponent({
   },
 });
 
-const sidebarWidth = computed(() => (!isSidebarHidden.value ? "20.5rem" : "0"));
+const sidebarWidth = computed(() => {
+  return !isSidebarHidden.value ? "20.5rem" : "0";
+});
 
 // import
 const isSidebarHidden = ref(false);
@@ -80,5 +82,10 @@ onMounted(() => {
 }
 .main-content {
   transition: margin-left 0.3s; /* Add a transition for the margin-left property */
+}
+@media screen and (max-width: 576px) {
+  .main-content {
+    margin-left: 1rem !important;
+  }
 }
 </style>
