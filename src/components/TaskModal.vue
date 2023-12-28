@@ -6,9 +6,11 @@
     class="bg-gray-200 bg-opacity-30 flex justify-center z-10 w-full h-screen fixed"
   >
     <div id="crud-modal" class="fixed flex justify-center w-full top-1/35 z-30">
-      <div class="relative p-4 w-2/5 max-h-full">
+      <div
+        class="relative selection:p-4 xl:w-2/5 lg:w-2/4 md:w-3/4 w-11/12 max-h-full"
+      >
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
           <!-- Modal header -->
           <div
             class="flex items-center flex-wrap justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
@@ -25,24 +27,26 @@
               class="w-full py-1 border-0 outline-none focus:border-0 focus:outline-white focus:ring-0 text-lg"
               placeholder="Description"
             />
-            <div class="my-3 flex gap-3">
+            <div
+              class="my-3 flex xl:flex-nowrap lg:flex-nowrap md:flex-nowrap flex-wrap gap-3"
+            >
               <button
                 type="button"
-                class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 jusitify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 flex gap-2"
+                class="xl:w-auto lg:w-auto md:w-auto w-full text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 flex gap-2"
               >
                 <span><v-icon name="bi-calendar2" scale="1" /></span>
                 <span>Due Date</span>
               </button>
               <button
                 type="button"
-                class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 jusitify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 flex gap-2"
+                class="xl:w-auto lg:w-auto md:w-auto w-full text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 flex gap-2"
               >
                 <span><v-icon name="bi-flag" scale="1" /></span>
                 <span>Priority</span>
               </button>
               <button
                 type="button"
-                class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 jusitify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 flex gap-2"
+                class="xl:w-auto lg:w-auto md:w-auto w-full text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 justify-center items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 flex gap-2"
               >
                 <span><v-icon name="bi-clock" scale="1" /></span>
                 <span>Reminder</span>
