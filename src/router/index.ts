@@ -5,6 +5,7 @@ const LazyBaseHomeView = () => import("@/views/BaseHomeView.vue");
 const LazyWelcomeView = () => import("@/views/Welcome.vue");
 const LazyLoginView = () => import("@/views/Login.vue");
 const LazyProjectsView = () => import("@/views/ProjectsView.vue");
+const LazyTasksView = () => import("@/views/Tasks.vue");
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -19,12 +20,20 @@ const router = createRouter({
         {
           path: "home",
           name: "HomeView",
+          meta: { title: "Home" },
           component: LazyHomeView,
         },
         {
           path: "projects/active",
           name: "ProjectsView",
+          meta: { title: "Projects" },
           component: LazyProjectsView,
+        },
+        {
+          path: "tasks",
+          name: "TasksView",
+          meta: { title: "Tasks" },
+          component: LazyTasksView,
         },
       ],
     },
