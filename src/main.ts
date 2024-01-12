@@ -6,6 +6,7 @@ import * as BiIcons from "oh-vue-icons/icons/bi";
 import * as PrIcons from "oh-vue-icons/icons/pr";
 import * as RiIcons from "oh-vue-icons/icons/ri";
 import * as LaIcons from "oh-vue-icons/icons/la";
+import * as OiIcons from "oh-vue-icons/icons/oi";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -19,7 +20,8 @@ const Bi = Object.values({ ...BiIcons });
 const Pr = Object.values({ ...PrIcons });
 const Ri = Object.values({ ...RiIcons });
 const La = Object.values({ ...LaIcons });
-addIcons(...Fa, ...Bi, ...Pr, ...Ri, ...La);
+const Oi = Object.values({ ...OiIcons });
+addIcons(...Fa, ...Bi, ...Pr, ...Ri, ...La, ...Oi);
 
 const app = createApp(App);
 const pinia = createPinia();

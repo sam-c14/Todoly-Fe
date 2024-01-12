@@ -78,9 +78,7 @@
             </form>
           </div>
         </div>
-        <div
-          class="sm:block hidden w-1/2 bggreen-400 h-full py-10 xl:pr-0 pr-5"
-        >
+        <div class="sm:block hidden w-1/2 h-full py-10 xl:pr-0 pr-5">
           <img
             class="xl:w-10/12 w-full h-full rounded-md"
             src="@/assets/images/login-todo-bg-2.jpg"

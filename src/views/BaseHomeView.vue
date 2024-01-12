@@ -4,7 +4,7 @@
       :showTaskModal="showTaskModal"
       :setShowTaskModal="setShowTaskModal"
     />
-    <div class="flex overflow-hidden">
+    <div class="flex">
       <Transition name="slide-fade">
         <Sidebar
           :setIsSidebarHidden="setIsSidebarHidden"

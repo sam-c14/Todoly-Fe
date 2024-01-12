@@ -27,27 +27,84 @@
     </div>
     <!-- Board Component -->
     <div class="mt-4">
-      <div class="mt-2 flex justify-between">
-        <p class="font-semibold">Today</p>
-        <p class="font-semibold">Past Due</p>
-        <p class="font-semibold">Overdue</p>
+      <div class="mt-2 flex xl:w-3/4 justify-between">
+        <p class="font-semibold text-end mr-5 xl:w-1/3">Overdue</p>
+        <p class="font-semibold text-end xl:w-1/3">Today</p>
+        <p class="font-semibold opacity-0 text-end xl:w-1/3">Overdue</p>
       </div>
       <!-- Draggable -->
-      <Draggable v-model="items">
-        <template #item="{ item }">
-          <div class="py-2 px-3 rounded-lg my-3 bg-red-500 text-white w-2/6">
-            {{ item.title }}
-          </div>
-        </template>
-      </Draggable>
+      <div
+        ref="tasksDiv"
+        class="flex max-h-screen lg:w-auto md:w-full lg:overflow-hidden min-w-custom md:overflow-scroll gap-2"
+      >
+        <div class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full">
+          <VueDraggableNext
+            :group="{ name: 'overdue', put: false }"
+            v-model="items"
+          >
+            <transition-group>
+              <div
+                v-for="item in items"
+                :key="item.id"
+                class="list-items shadow-lg flex items-center gap-x-4 border"
+              >
+                <span><input type="radio" :name="item.title" /></span>
+                <span>{{ item.title }}</span>
+              </div>
+            </transition-group>
+          </VueDraggableNext>
+        </div>
+        <div
+          v-if="tasksStore.tasks.length >= 1"
+          class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full"
+        >
+          <VueDraggableNext
+            :sort="true"
+            @change="log"
+            :group="{ put: true }"
+            v-model="tasksStore.tasks"
+          >
+            <transition-group>
+              <div
+                v-for="item in tasksStore.tasks"
+                :key="item.id"
+                class="list-items shadow-lg flex items-center gap-x-4 border"
+              >
+                <p class="text-xl relative flex gap-2 items-center">
+                  <span class="inline-block -mt-2"
+                    ><input type="radio" :name="item.title" /></span
+                  ><span>{{ item.title }}</span>
+                  <span
+                    @click="tasksStore.removeTasks(item.id)"
+                    class="absolute -right-2 -top-2"
+                    ><v-icon name="oi-kebab-horizontal" scale="1.5" /></span
+                ></p>
+                <p>{{ item.desc?.slice(0, 30) }}...</p>
+                <p class="mt-1"
+                  ><span class="inline-block mt-1"
+                    ><v-icon name="bi-list-task" scale="1" /></span
+                  ><span class="ml-2 text-sm">Task</span></p
+                >
+              </div>
+            </transition-group>
+          </VueDraggableNext>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Draggable from "vue3-draggable";
+import { ref, onMounted } from "vue";
+// import Draggable from "vue3-draggable";
+import { VueDraggableNext } from "vue-draggable-next";
+import { useTasksStore } from "@/stores/tasks";
 
-const items = [
+const log = (event: any) => {
+  console.log(event);
+};
+
+const items = ref([
   {
     id: 1,
     title: "item 1",
@@ -64,11 +121,50 @@ const items = [
     id: 4,
     title: "item 4",
   },
-  {
-    id: 5,
-    title: "item 5",
-  },
-];
+]);
+
+const tasksDiv = ref();
+const currentTask = ref([]);
+const tasksStore = useTasksStore();
+
+onMounted(() => {
+  tasksDiv.value.scrollLeft = 120;
+  console.log(tasksDiv.value);
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+.draggable-list {
+  /* background: #3f51b5; */
+  /* color: #fff; */
+  /* border: 1px solid; */
+  /* background: brown; */
+  max-height: 80vh;
+  /* overflow-y: scroll !important; */
+  /* width: 25%; */
+  padding: 10px;
+}
+.draggable-list::-webkit-scrollbar {
+  display: none;
+}
+.list-items {
+  margin-block: 5px;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 5px;
+  width: 100%;
+  height: 25%;
+  display: inline-block;
+}
+.min-w-custom {
+  min-width: 600px !important;
+}
+.min-w-custom::-webkit-scrollbar {
+}
+/* @media (max-width:768px) {
+  .md-calc{
+    width: calc(100vw - 20.5rem);
+  }
+} */
+</style>

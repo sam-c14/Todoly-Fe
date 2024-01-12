@@ -6,6 +6,7 @@ const LazyWelcomeView = () => import("@/views/Welcome.vue");
 const LazyLoginView = () => import("@/views/Login.vue");
 const LazyProjectsView = () => import("@/views/ProjectsView.vue");
 const LazyTasksView = () => import("@/views/Tasks.vue");
+const LazyNotFound = () => import("@/views/NotFound.vue");
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -47,7 +48,10 @@ const router = createRouter({
       name: "Login",
       component: LazyLoginView,
     },
-
+    {
+      path: "/:catchAll(.*)",
+      component: LazyNotFound,
+    },
     // {
     //   path: '/about',
     //   name: 'about',
