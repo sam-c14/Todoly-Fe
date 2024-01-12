@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-y-hidden">
+  <div ref="containerContent" class="overflow-y-hidden content">
     <TaskModal
       :showTaskModal="showTaskModal"
       :setShowTaskModal="setShowTaskModal"
@@ -52,6 +52,7 @@ const sidebarWidth = computed(() => {
   return !isSidebarHidden.value ? "20.5rem" : "0";
 });
 
+const containerContent = ref();
 // import
 const isSidebarHidden = ref(false);
 const setIsSidebarHidden = () => {
@@ -67,7 +68,10 @@ onBeforeRouteUpdate((to, from) => {
 });
 
 onMounted(() => {
-  // console.log("mounteds in base home view");
+  // Use nextTick to ensure the DOM is updated
+  // await nextTick();
+  // containerContent.value.scrollLeft = 150;
+  // console.log(containerContent.value.scrollLeft);
 });
 </script>
 <style scoped>
@@ -87,6 +91,20 @@ onMounted(() => {
 .main-content {
   transition: margin-left 0.3s; /* Add a transition for the margin-left property */
 }
+
+.content::-webkit-scrollbar {
+  background: antiquewhite;
+  width: 100%;
+}
+.content::-webkit-scrollbar-thumb {
+  background-color: #888; /* Set the color of the scrollbar thumb */
+  width: 50% !important;
+}
+
+.content::-webkit-scrollbar-track {
+  background-color: #eee; /* Set the color of the scrollbar track */
+}
+
 @media screen and (max-width: 576px) {
   .main-content {
     margin-left: 1rem !important;
