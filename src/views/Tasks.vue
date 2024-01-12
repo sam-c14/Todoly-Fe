@@ -27,17 +27,24 @@
     </div>
     <!-- Board Component -->
     <div class="mt-4">
-      <div class="mt-2 flex xl:w-3/4 justify-between">
-        <p class="font-semibold text-end mr-5 xl:w-1/3">Overdue</p>
-        <p class="font-semibold text-end xl:w-1/3">Today</p>
-        <p class="font-semibold opacity-0 text-end xl:w-1/3">Overdue</p>
+      <div class="mt-2 flex xl:w-3/4 lg:3/4 md:3/4 w-screen justify-between">
+        <p class="font-semibold text-end mr-5 xl:w-1/3 lg:w-1/3 md:w-1/3 w-full"
+          >Overdue</p
+        >
+        <p class="font-semibold text-end xl:w-1/3 lg:w-1/3 md:w-1/3 w-full"
+          >Today</p
+        >
+        <p
+          class="font-semibold opacity-0 text-end xl:w-1/3 lg:w-1/3 md:w-1/3 md:block hidden w-full"
+          >Overdue</p
+        >
       </div>
       <!-- Draggable -->
       <div
         ref="tasksDiv"
-        class="flex max-h-screen lg:w-auto md:w-full lg:overflow-hidden min-w-custom md:overflow-scroll gap-2"
+        class="flex max-h-screen lg:w-auto md:w-full lg:overflow-hidden min-w-custom md:overflow-auto gap-2"
       >
-        <div class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full">
+        <div class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full w-1/2">
           <VueDraggableNext
             :group="{ name: 'overdue', put: false }"
             v-model="items"
@@ -56,7 +63,7 @@
         </div>
         <div
           v-if="tasksStore.tasks.length >= 1"
-          class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full"
+          class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full w-1/2"
         >
           <VueDraggableNext
             :sort="true"
@@ -95,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 // import Draggable from "vue3-draggable";
 import { VueDraggableNext } from "vue-draggable-next";
 import { useTasksStore } from "@/stores/tasks";
@@ -127,9 +134,11 @@ const tasksDiv = ref();
 const currentTask = ref([]);
 const tasksStore = useTasksStore();
 
-onMounted(() => {
+onMounted(async () => {
+  // Use nextTick to ensure the DOM is updated
+  await nextTick();
   tasksDiv.value.scrollLeft = 120;
-  console.log(tasksDiv.value);
+  console.log(tasksDiv.value.scrollLeft, "a");
 });
 </script>
 
@@ -157,14 +166,10 @@ onMounted(() => {
   height: 25%;
   display: inline-block;
 }
-.min-w-custom {
-  min-width: 600px !important;
-}
-.min-w-custom::-webkit-scrollbar {
-}
-/* @media (max-width:768px) {
-  .md-calc{
-    width: calc(100vw - 20.5rem);
+
+@media (max-width: 992px) {
+  .min-w-custom {
+    min-width: 600px !important;
   }
-} */
+}
 </style>
