@@ -54,10 +54,10 @@
             </div>
           </div>
           <!-- Modal body -->
-          <form class="p-4 md:p-5">
+          <div class="p-4 md:p-5">
             <div class="flex gap-2 justify-end">
               <button
-                type="submit"
+                @click="addTask"
                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Add Task
@@ -68,7 +68,7 @@
                 >Cancel</button
               >
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -130,6 +130,9 @@
 </template>
 <script setup lang="ts">
 import { defineProps, reactive, ref } from "vue";
+import { useTasksStore } from "@/stores/tasks";
+
+const tasksStore = useTasksStore();
 
 const taskPayload = reactive({
   taskName: "",
@@ -153,6 +156,16 @@ const handleRemoveTaskModal = (e: any) => {
       props?.setShowTaskModal?.();
     }
   }
+};
+
+const addTask = (e: any) => {
+  e.preventDefault();
+  tasksStore.setTasks({
+    id: Math.random() * 102 + "",
+    title: taskPayload.taskName,
+    desc: taskPayload.taskDescription,
+  });
+  props?.setShowTaskModal?.();
 };
 
 const removeTaskModal = () => {

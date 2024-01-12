@@ -4,7 +4,7 @@
       :showTaskModal="showTaskModal"
       :setShowTaskModal="setShowTaskModal"
     />
-    <div class="flex overflow-hidden">
+    <div class="flex">
       <Transition name="slide-fade">
         <Sidebar
           :setIsSidebarHidden="setIsSidebarHidden"
@@ -17,12 +17,11 @@
           title="Toggle Sidebar"
           v-else-if="isSidebarHidden"
         >
-          <div class="hover:bg-sky-300 hover:text-white rounded-md p-2">
-            <v-icon
-              @click.prevent="isSidebarHidden = !isSidebarHidden"
-              name="bi-box-arrow-right"
-              scale="1.5"
-            />
+          <div
+            class="hover:bg-sky-300 hover:text-white rounded-md p-2"
+            @click.prevent="isSidebarHidden = !isSidebarHidden"
+          >
+            <v-icon name="bi-box-arrow-right" scale="1.5" />
           </div>
         </div>
       </Transition>
@@ -37,7 +36,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView, onBeforeRouteUpdate } from "vue-router";
 import Sidebar from "@/components/Sidebar.vue";
 import TaskModal from "@/components/TaskModal.vue";
 // import Sidebar from '../components/Sidebar.vue'
@@ -62,6 +61,11 @@ const showTaskModal = ref(false);
 const setShowTaskModal = () => {
   showTaskModal.value = !showTaskModal.value;
 };
+
+onBeforeRouteUpdate((to, from) => {
+  document.title = to.meta.title as string;
+});
+
 onMounted(() => {
   // console.log("mounteds in base home view");
 });

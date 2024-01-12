@@ -53,9 +53,9 @@
           /></span>
           <span class="text-lg">Search</span>
         </a>
-        <a
-          href="#"
-          @click="utilsStore.selectedMenuOption = 'tasks'"
+        <router-link
+          to="/tasks"
+          @click="setActiveLink"
           :class="
             utilsStore.selectedMenuOption == 'tasks' && 'bg-sky-300 text-white'
           "
@@ -65,7 +65,7 @@
             <v-icon name="fa-tasks" class="text-reset" scale="1.1" />
           </span>
           <span class="text-lg">Tasks</span>
-        </a>
+        </router-link>
         <a
           href="#"
           @click="utilsStore.selectedMenuOption = 'calendar'"
@@ -170,8 +170,12 @@ const routeToProjects = (e: any) => {
   // console.log();
   if (!e.target.classList.contains("ov-icon")) {
     utilsStore.selectedMenuOption = "projects";
-    router.push("projects/active");
+    router.push("/projects/active");
   }
+};
+const setActiveLink = (e: any) => {
+  utilsStore.selectedMenuOption = "tasks";
+  // router.push("/tasks");
 };
 
 const showProjects = ref(true);

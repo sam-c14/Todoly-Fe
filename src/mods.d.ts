@@ -7,3 +7,4 @@ declare module "vue-material-design-icons/*";
 declare module "pinia-plugin-persistedstate/*";
 declare module "oh-vue-icons";
 declare module "flowbite";
+declare module "vue3-draggable";
