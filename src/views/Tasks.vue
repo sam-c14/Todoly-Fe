@@ -1,5 +1,5 @@
 <template>
-  <div class="pr-24">
+  <div class="pr-24 task-container">
     <div
       class="flex w-full mt-10 items-center xl:pr-14 lg:pr-14 md:pr-14 pr-2 justify-between xl:flex-nowrap lg:flex-nowrap md:flex-nowrap flex-wrap"
     >
@@ -27,7 +27,7 @@
     </div>
     <!-- Board Component -->
     <div class="mt-4">
-      <div class="mt-2 flex xl:w-3/4 lg:3/4 md:3/4 w-screen justify-between">
+      <div class="mt-2 flex xl:w-3/4 lg:3/4 md:3/4 justify-between">
         <p class="font-semibold text-end mr-5 xl:w-1/3 lg:w-1/3 md:w-1/3 w-full"
           >Overdue</p
         >
@@ -42,7 +42,7 @@
       <!-- Draggable -->
       <div
         ref="tasksDiv"
-        class="flex max-h-screen lg:w-auto md:w-full lg:overflow-hidden min-w-custom md:overflow-auto gap-2"
+        class="flex max-h-screen lg:w-auto md:w-full lg:overflow-hidden min-w-custom gap-2"
       >
         <div class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full w-1/2">
           <VueDraggableNext
@@ -130,24 +130,20 @@ const items = ref([
   },
 ]);
 
-const tasksDiv = ref();
+// const tasksDiv = ref();
 const currentTask = ref([]);
 const tasksStore = useTasksStore();
 
 onMounted(async () => {
   // Use nextTick to ensure the DOM is updated
-  await nextTick();
-  tasksDiv.value.scrollLeft = 120;
-  console.log(tasksDiv.value.scrollLeft, "a");
+  // await nextTick();
+  // tasksDiv.value.scrollLeft = 120;
+  // console.log(tasksDiv.value.scrollLeft, "a");
 });
 </script>
 
 <style scoped>
 .draggable-list {
-  /* background: #3f51b5; */
-  /* color: #fff; */
-  /* border: 1px solid; */
-  /* background: brown; */
   max-height: 80vh;
   /* overflow-y: scroll !important; */
   /* width: 25%; */
@@ -167,9 +163,14 @@ onMounted(async () => {
   display: inline-block;
 }
 
-@media (max-width: 992px) {
+.task-container::-webkit-scrollbar {
+  display: none !important;
+  /* background: green; */
+}
+
+@media screen and (max-width: 992px) {
   .min-w-custom {
-    min-width: 600px !important;
+    min-width: 600px;
   }
 }
 </style>
