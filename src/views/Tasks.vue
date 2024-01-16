@@ -108,6 +108,7 @@ import { ref, onMounted, watchEffect } from "vue";
 // import Draggable from "vue3-draggable";
 import { VueDraggableNext } from "vue-draggable-next";
 import { useTasksStore } from "@/stores/tasks";
+import firebaseApp from "@/firebase";
 
 const log = (event: any) => {
   // console.log(event);
@@ -145,6 +146,7 @@ onMounted(async () => {
   // await nextTick();
   // tasksDiv.value.scrollLeft = 120;
   // console.log(tasksDiv.value.scrollLeft, "a");
+  console.log(firebaseApp.auth);
 });
 </script>
 
