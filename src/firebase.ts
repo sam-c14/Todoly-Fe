@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -18,4 +19,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
-export default { auth, createUserWithEmailAndPassword };
+export default {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+};

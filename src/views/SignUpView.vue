@@ -14,8 +14,10 @@
       <div class="flex h-full">
         <div class="sm:w-1/2 w-full flex items-center xl:px-10 px-5">
           <div class="w-full">
-            <h3 class="text-2xl text-gray-900 font-semibold mb-3">Login</h3>
-            <form @submit.prevent="signIn">
+            <h3 class="text-2xl text-gray-900 font-semibold mb-3"
+              >Create Your Account</h3
+            >
+            <form @submit.prevent="signUp">
               <div class="mb-6">
                 <label
                   for="email"
@@ -42,36 +44,21 @@
                   v-model="loginForm.password"
                   id="password"
                   class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  autocomplete="off"
                   required
                 />
               </div>
-              <div class="flex items-start mb-6">
-                <div class="flex items-center h-5">
-                  <input
-                    id="remember"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                    required
-                  />
-                </div>
-                <label
-                  for="remember"
-                  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Remember me</label
-                >
-              </div>
               <div class="my-3">
-                <router-link to="/register"
-                  >Don't have an account?
-                  <span class="text-sky-600 underline">Sign Up </span>
+                <router-link to="/sign-up"
+                  >Already have an account?
+                  <span class="text-sky-600 underline">Sign In </span>
                   Here</router-link
                 >
               </div>
               <button
                 type="submit"
                 class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-1/4 md:w-1/3 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all"
-                >Login</button
+                >Sign Up</button
               >
             </form>
           </div>
@@ -94,7 +81,6 @@ import { reactive, ref, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import authApp from "@/firebase";
-
 const loginForm = reactive({
   email: "",
   password: "",
@@ -102,22 +88,19 @@ const loginForm = reactive({
 const router = useRouter();
 const { setToken } = useAuthStore();
 const isMounted = ref(false);
-
-const signIn = async () => {
+const signUp = async () => {
   // const auth = getAuth();
   authApp
-    .signInWithEmailAndPassword(
+    .createUserWithEmailAndPassword(
       authApp.auth,
       loginForm.email,
       loginForm.password
     )
     .then((userCredential: any) => {
       // Signed up
-      const user = userCredential.user;
-      // set token
-      setToken(user.accessToken);
-      router.push("/home");
-      // console.log(user);
+      //   const user = userCredential.user;
+      // ...
+      router.push("/login");
     })
     .catch((error: any) => {
       const errorCode = error.code;
@@ -126,7 +109,6 @@ const signIn = async () => {
       // ..
     });
 };
-
 onMounted(() => {
   isMounted.value = true;
 });
