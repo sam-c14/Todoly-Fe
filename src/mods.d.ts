@@ -8,3 +8,5 @@ declare module "pinia-plugin-persistedstate/*";
 declare module "oh-vue-icons";
 declare module "flowbite";
 declare module "vue3-draggable";
+declare module "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+declare module "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
