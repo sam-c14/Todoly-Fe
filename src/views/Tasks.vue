@@ -11,7 +11,9 @@
             class="text-gray-500"
             scale="1"
           ></v-icon>
-          <span class="ml-2 -mt-1">1 task</span></p
+          <span class="ml-2 -mt-1"
+            >{{ tasksStore.tasks.length + items.length }} task</span
+          ></p
         >
       </div>
       <!-- <div
@@ -102,13 +104,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 // import Draggable from "vue3-draggable";
 import { VueDraggableNext } from "vue-draggable-next";
 import { useTasksStore } from "@/stores/tasks";
+import firebaseApp from "@/firebase";
 
 const log = (event: any) => {
-  console.log(event);
+  // console.log(event);
 };
 
 const items = ref([
@@ -134,11 +137,16 @@ const items = ref([
 const currentTask = ref([]);
 const tasksStore = useTasksStore();
 
+watchEffect(() => {
+  console.log(tasksStore.tasks);
+});
+
 onMounted(async () => {
   // Use nextTick to ensure the DOM is updated
   // await nextTick();
   // tasksDiv.value.scrollLeft = 120;
   // console.log(tasksDiv.value.scrollLeft, "a");
+  console.log(firebaseApp.auth);
 });
 </script>
 
