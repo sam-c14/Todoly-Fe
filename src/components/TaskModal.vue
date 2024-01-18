@@ -131,9 +131,11 @@
 <script setup lang="ts">
 import { defineProps, reactive, ref } from "vue";
 import { useTasksStore } from "@/stores/tasks";
+import { useAuthStore } from "@/stores/auth";
 import firebaseApp from "@/firebase";
 
 const tasksStore = useTasksStore();
+const { userData } = useAuthStore();
 
 const taskPayload = reactive({
   taskName: "",
@@ -166,18 +168,16 @@ const addTask = async (e: any) => {
   //   title: taskPayload.taskName,
   //   desc: taskPayload.taskDescription,
   // });
-  console.log("Got Here");
+  // console.log("Got Here");
   try {
     // console.log(firebaseApp.addDoc);
-    const docRef = await firebaseApp.addDoc(
-      firebaseApp.collection(firebaseApp.db, "tasks"),
-      {
-        id: Math.random() * 102 + "",
-        title: taskPayload.taskName,
-        desc: taskPayload.taskDescription,
-      }
-    );
-    console.log("Document written with ID: ", docRef.id);
+    await firebaseApp.addDoc(firebaseApp.collection(firebaseApp.db, "tasks"), {
+      id: Math.random() * 102 + "",
+      user: userData.localId,
+      title: taskPayload.taskName,
+      desc: taskPayload.taskDescription,
+    });
+    // console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
