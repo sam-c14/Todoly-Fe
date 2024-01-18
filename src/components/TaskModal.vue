@@ -57,7 +57,7 @@
           <div class="p-4 md:p-5">
             <div class="flex gap-2 justify-end">
               <button
-                @click="addTask"
+                @click.prevent="addTask"
                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Add Task
@@ -131,6 +131,7 @@
 <script setup lang="ts">
 import { defineProps, reactive, ref } from "vue";
 import { useTasksStore } from "@/stores/tasks";
+import firebaseApp from "@/firebase";
 
 const tasksStore = useTasksStore();
 
@@ -158,13 +159,28 @@ const handleRemoveTaskModal = (e: any) => {
   }
 };
 
-const addTask = (e: any) => {
+const addTask = async (e: any) => {
   e.preventDefault();
-  tasksStore.setTasks({
-    id: Math.random() * 102 + "",
-    title: taskPayload.taskName,
-    desc: taskPayload.taskDescription,
-  });
+  // tasksStore.setTasks({
+  //   id: Math.random() * 102 + "",
+  //   title: taskPayload.taskName,
+  //   desc: taskPayload.taskDescription,
+  // });
+  console.log("Got Here");
+  try {
+    // console.log(firebaseApp.addDoc);
+    const docRef = await firebaseApp.addDoc(
+      firebaseApp.collection(firebaseApp.db, "tasks"),
+      {
+        id: Math.random() * 102 + "",
+        title: taskPayload.taskName,
+        desc: taskPayload.taskDescription,
+      }
+    );
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
   props?.setShowTaskModal?.();
 };
 

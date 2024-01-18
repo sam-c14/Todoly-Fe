@@ -7,11 +7,16 @@ export const useAuthStore = defineStore(
   () => {
     const token = ref<string>("");
     // const doubleCount = computed(() => count.value * 2);
+    const userData = ref<any>({});
+
     function setToken(tokenVal: string) {
       token.value = tokenVal;
     }
+    function setUserData(data: any) {
+      userData.value = data;
+    }
 
-    return { token, setToken };
+    return { token, setToken, userData, setUserData };
   },
   {
     persist: PINIA_PERSIST_OPTIONS,

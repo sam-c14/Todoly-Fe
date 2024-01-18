@@ -100,7 +100,7 @@ const loginForm = reactive({
   password: "",
 });
 const router = useRouter();
-const { setToken } = useAuthStore();
+const { setToken, setUserData } = useAuthStore();
 const isMounted = ref(false);
 
 const signIn = async () => {
@@ -116,6 +116,7 @@ const signIn = async () => {
       const user = userCredential.user;
       // set token
       setToken(user.accessToken);
+      setUserData(user.reloadUserInfo);
       router.push("/home");
       // console.log(user);
     })

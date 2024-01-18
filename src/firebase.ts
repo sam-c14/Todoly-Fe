@@ -4,6 +4,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCRLxZ3NZ0JPhTabRZyAt2Hbp9HVoN-ow8",
@@ -19,8 +24,13 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
+const db = getFirestore(app);
+
 export default {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  db,
+  collection,
+  addDoc,
 };
