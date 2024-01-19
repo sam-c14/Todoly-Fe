@@ -73,6 +73,8 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   const authStore = useAuthStore();
   if (to.fullPath === "/home" && !authStore.token) return "/welcome";
+  else if (["/login", "register"].includes(to.fullPath) && authStore.token)
+    return "/home";
 });
 
 export default router;

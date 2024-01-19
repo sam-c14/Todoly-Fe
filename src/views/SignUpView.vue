@@ -49,7 +49,7 @@
                 />
               </div>
               <div class="my-3">
-                <router-link to="/sign-up"
+                <router-link to="/login"
                   >Already have an account?
                   <span class="text-sky-600 underline">Sign In </span>
                   Here</router-link
