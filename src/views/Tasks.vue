@@ -12,7 +12,7 @@
             scale="1"
           ></v-icon>
           <span class="ml-2 -mt-1"
-            >{{ tasksStore.tasks.length + items.length }} task</span
+            >{{ tasksStore.tasks.length + overdueTasks.length }} task</span
           ></p
         >
       </div>
@@ -49,16 +49,27 @@
         <div class="draggable-list xl:w-1/4 lg:w-1/2 md:w-full w-1/2">
           <VueDraggableNext
             :group="{ name: 'overdue', put: false }"
-            v-model="items"
+            v-model="overdueTasks"
           >
             <transition-group>
               <div
-                v-for="item in items"
+                v-for="item in overdueTasks"
                 :key="item.id"
                 class="list-items shadow-lg flex items-center gap-x-4 border"
               >
-                <span><input type="radio" :name="item.title" /></span>
-                <span>{{ item.title }}</span>
+                <span
+                  ><input class="-mt-1" type="radio" :name="item.title"
+                /></span>
+                <span class="ml-2">{{ item.title }}</span>
+                <p
+                  ><span><v-icon name="bi-calendar-event" scale="1" /></span>
+                  {{
+                    new Date(
+                      item.timeCreated.seconds * 1000 +
+                        Math.round(item.timeCreated.nanoseconds / 1e6)
+                    ).toDateString()
+                  }}</p
+                >
               </div>
             </transition-group>
           </VueDraggableNext>
@@ -84,7 +95,7 @@
                     ><input type="radio" :name="item.title" /></span
                   ><span>{{ item.title }}</span>
                   <span
-                    @click="tasksStore.removeTasks(item.id)"
+                    @click="tasksStore.removeTask(item.id)"
                     class="absolute -right-2 -top-2"
                     ><v-icon name="oi-kebab-horizontal" scale="1.5" /></span
                 ></p>
@@ -108,45 +119,108 @@ import { ref, onMounted, watchEffect } from "vue";
 // import Draggable from "vue3-draggable";
 import { VueDraggableNext } from "vue-draggable-next";
 import { useTasksStore } from "@/stores/tasks";
+import { useAuthStore } from "@/stores/auth";
 import firebaseApp from "@/firebase";
 
 const log = (event: any) => {
   // console.log(event);
 };
 
-const items = ref([
-  {
-    id: 1,
-    title: "item 1",
-  },
-  {
-    id: 2,
-    title: "item 2",
-  },
-  {
-    id: 3,
-    title: "item 3",
-  },
-  {
-    id: 4,
-    title: "item 4",
-  },
-]);
+const { userData } = useAuthStore();
 
+const { db, collection, getDocs, updateDoc, doc } = firebaseApp;
+const tasksCollection = collection(db, "tasks");
+const userTasksCollection = collection(
+  tasksCollection,
+  userData?.localId,
+  "tasks"
+);
+
+// const items = ref([
+//   {
+//     id: 1,
+//     title: "item 1",
+//   },
+//   {
+//     id: 2,
+//     title: "item 2",
+//   },
+//   {
+//     id: 3,
+//     title: "item 3",
+//   },
+//   {
+//     id: 4,
+//     title: "item 4",
+//   },
+// ]);
+
+const overdueTasks = ref([]);
 // const tasksDiv = ref();
-const currentTask = ref([]);
+const tasks = ref([]);
 const tasksStore = useTasksStore();
+
+const updateTaskStatus = async (index: number) => {
+  try {
+    // console.log(taskDocsId.value, index);
+    const docRef = doc(
+      collection(db, "tasks", userData?.localId, "tasks"),
+      taskDocsId.value[index]
+    );
+
+    const response = await updateDoc(docRef, {
+      status: "Overdues",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 watchEffect(() => {
   console.log(tasksStore.tasks);
 });
 
+const taskDocsId = ref([]);
+
+const fetchTasks = async () => {
+  // To prevent the pushing of tasks that are already available in the current array
+  const flattenedTasksArray = tasksStore.tasks
+    .map((obj) => Object.values(obj))
+    .flat();
+
+  const querySnapshot = await getDocs(userTasksCollection);
+  let docData: any;
+  let currentTimeSeconds;
+  let previousDateSeconds;
+  let secondsDifference;
+  let count = 0;
+  querySnapshot.forEach((doc: any) => {
+    docData = doc.data();
+    // console.log(doc);
+    taskDocsId.value.push(doc.id);
+
+    currentTimeSeconds = Math.floor(Date.now() / 1000);
+    previousDateSeconds = docData.timeCreated?.seconds;
+    secondsDifference = currentTimeSeconds - previousDateSeconds; // check if the tasks timeCreated is in the past
+    // console.log(secondsDifference, doc.id);
+    if (!flattenedTasksArray.includes(docData.id) && secondsDifference <= 86400)
+      // Total seconds in a day
+      tasksStore.tasks.push(doc.data());
+    else if (secondsDifference > 0) {
+      updateTaskStatus(count);
+      count++;
+      overdueTasks.value.push(docData);
+      tasksStore.tasks = tasksStore.tasks.filter(
+        (task) => task.id !== docData.id
+      );
+    }
+  });
+};
+
 onMounted(async () => {
   // Use nextTick to ensure the DOM is updated
-  // await nextTick();
-  // tasksDiv.value.scrollLeft = 120;
-  // console.log(tasksDiv.value.scrollLeft, "a");
-  console.log(firebaseApp.auth);
+  fetchTasks();
+  // console.log(overdueTasks.value, "se");
 });
 </script>
 

@@ -42,7 +42,9 @@
           >
             <v-icon name="pr-plus" class="text-white" scale="1" />
           </span>
-          <span class="font-semibold text-lg text-sky-500">Add Task</span>
+          <span class="font-semibold lg:text-base md:text-lg text-sky-500"
+            >Add Task</span
+          >
         </a>
         <a
           href="#"
@@ -51,7 +53,7 @@
           <span
             ><v-icon name="pr-search" class="text-reset" scale="1.1"
           /></span>
-          <span class="text-lg">Search</span>
+          <span class="lg:text-base md:text-lg">Search</span>
         </a>
         <router-link
           to="/tasks"
@@ -64,7 +66,7 @@
           <span>
             <v-icon name="fa-tasks" class="text-reset" scale="1.1" />
           </span>
-          <span class="text-lg">Tasks</span>
+          <span class="lg:text-base md:text-lg">Tasks</span>
         </router-link>
         <a
           href="#"
@@ -77,7 +79,7 @@
           ><span>
             <v-icon name="bi-calendar-event" class="text-reset" scale="1.1" />
           </span>
-          <span class="text-lg">Calendar</span>
+          <span class="lg:text-base md:text-lg">Calendar</span>
         </a>
         <a
           href="#"
@@ -91,7 +93,7 @@
           <span>
             <v-icon name="ri-dashboard-fill" class="text-reset" scale="1.1" />
           </span>
-          <span class="text-lg"> Filters and Labels </span>
+          <span class="lg:text-base md:text-lg"> Filters and Labels </span>
         </a>
       </nav>
       <nav class="mt-10 px-2">
@@ -137,10 +139,19 @@
                   scale="1.1"
                 />
               </span>
-              <span class="text-lg"> Home </span>
+              <span class="lg:text-base md:text-lg"> Home </span>
             </a>
           </div>
         </Transition>
+      </nav>
+      <nav class="mt-10 px-2">
+        <ul>
+          <li
+            class="px-4 text-gray-600 hover:bg-sky-300 hover:text-white flex items-center gap-2 rounded-md transition duration-300 py-2"
+            @click="logout"
+            >Logout</li
+          >
+        </ul>
       </nav>
     </div>
   </div>
@@ -151,8 +162,10 @@ import { useRouter } from "vue-router";
 import { FaBars } from "oh-vue-icons/icons";
 import { defineProps, ref } from "vue";
 import { useUtilsStore } from "@/stores/utils";
+import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
+const { logout } = useAuthStore();
 const utilsStore = useUtilsStore();
 const props = defineProps({
   isSidebarHidden: {

@@ -132,10 +132,17 @@
 import { defineProps, reactive, ref } from "vue";
 import { useTasksStore } from "@/stores/tasks";
 import { useAuthStore } from "@/stores/auth";
+// import { useUtilsStore } from "@/stores/utils";
+import { useToast } from "vue-toastification";
 import firebaseApp from "@/firebase";
 
-const tasksStore = useTasksStore();
+// const tasksStore = useTasksStore();
 const { userData } = useAuthStore();
+// const utilsStore = useUtilsStore()
+const { db, collection, addDoc } = firebaseApp;
+
+const toast = useToast();
+const tasksCollection = collection(db, "tasks");
 
 const taskPayload = reactive({
   taskName: "",
@@ -163,25 +170,27 @@ const handleRemoveTaskModal = (e: any) => {
 
 const addTask = async (e: any) => {
   e.preventDefault();
-  // tasksStore.setTasks({
-  //   id: Math.random() * 102 + "",
-  //   title: taskPayload.taskName,
-  //   desc: taskPayload.taskDescription,
-  // });
-  // console.log("Got Here");
   try {
-    // console.log(firebaseApp.addDoc);
-    await firebaseApp.addDoc(firebaseApp.collection(firebaseApp.db, "tasks"), {
+    // Creating a collection within a document within a parent collection
+    await addDoc(collection(tasksCollection, userData?.localId, "tasks"), {
       id: Math.random() * 102 + "",
       user: userData.localId,
       title: taskPayload.taskName,
       desc: taskPayload.taskDescription,
+      timeCreated: new Date(),
+      status: "In Progress",
     });
-    // console.log("Document written with ID: ", docRef.id);
+    toast.success("Task successfully added", {
+      timeout: 2000,
+    });
   } catch (e) {
+    toast.error(e);
     console.error("Error adding document: ", e);
+  } finally {
+    props?.setShowTaskModal?.();
+    taskPayload.taskDescription = "";
+    taskPayload.taskName = "";
   }
-  props?.setShowTaskModal?.();
 };
 
 const removeTaskModal = () => {

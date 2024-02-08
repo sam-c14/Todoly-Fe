@@ -8,6 +8,11 @@ import {
   getFirestore,
   collection,
   addDoc,
+  setDoc,
+  getDocs,
+  deleteDoc,
+  updateDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -33,4 +38,9 @@ export default {
   db,
   collection,
   addDoc,
+  setDoc,
+  getDocs,
+  deleteDoc,
+  updateDoc,
+  doc,
 };

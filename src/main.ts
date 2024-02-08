@@ -7,6 +7,9 @@ import * as PrIcons from "oh-vue-icons/icons/pr";
 import * as RiIcons from "oh-vue-icons/icons/ri";
 import * as LaIcons from "oh-vue-icons/icons/la";
 import * as OiIcons from "oh-vue-icons/icons/oi";
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -29,5 +32,6 @@ pinia.use(piniaPluginPersistedstate); // is optimized
 app.component("v-icon", OhVueIcon);
 app.use(pinia);
 app.use(router);
+app.use(Toast);
 
 app.mount("#app");
