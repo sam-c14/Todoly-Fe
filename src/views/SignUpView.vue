@@ -20,6 +20,21 @@
             <form @submit.prevent="signUp">
               <div class="mb-6">
                 <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  v-model="loginForm.name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              <div class="mb-6">
+                <label
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Your email</label
@@ -49,7 +64,7 @@
                 />
               </div>
               <div class="my-3">
-                <router-link to="/sign-up"
+                <router-link to="/login"
                   >Already have an account?
                   <span class="text-sky-600 underline">Sign In </span>
                   Here</router-link
@@ -79,14 +94,19 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
+// import { useAuthStore } from "@/stores/auth";
+import { useToast } from "vue-toastification";
 import authApp from "@/firebase";
+// import {db} from "@/firebase"
+
+const toast = useToast();
 const loginForm = reactive({
+  name: "",
   email: "",
   password: "",
 });
 const router = useRouter();
-const { setToken } = useAuthStore();
+// const { setToken } = useAuthStore();
 const isMounted = ref(false);
 const signUp = async () => {
   // const auth = getAuth();
@@ -96,16 +116,24 @@ const signUp = async () => {
       loginForm.email,
       loginForm.password
     )
-    .then((userCredential: any) => {
-      // Signed up
-      //   const user = userCredential.user;
-      // ...
+    .then(async (userCredential: any) => {
+      // Set user in the users collection
+      await authApp.setDoc(
+        authApp.doc(authApp.db, "users", userCredential.user.uid),
+        {
+          name: loginForm.name,
+          email: userCredential.user.email,
+        }
+      );
+      toast.success("Sign up successful", {
+        timeout: 2000,
+      });
       router.push("/login");
     })
     .catch((error: any) => {
-      const errorCode = error.code;
+      // const errorCode = error.code;
       const errorMessage = error.message;
-      alert(error);
+      toast.error(errorMessage);
       // ..
     });
 };
